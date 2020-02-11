@@ -13,6 +13,8 @@ class NetworkTest < Minitest::Test
     @leslie_knope = Character.new({name: "Leslie Knope", actor: "Amy Poehler", salary: 2_000_000})
     @ron_swanson = Character.new({name: "Ron Swanson", actor: "Nick Offerman", salary: 1_400_000})
     @parks_and_rec = Show.new("Parks and Recreation", "Michael Shur & Greg Daniels", [@leslie_knope, @ron_swanson])
+    @mitch = Character.new({name: "Mitch Buchannon", actor: "David Hasselhoff", salary: 1_200_000})
+    @baywatch = Show.new("Baywatch", "Gregory Bonann", [@mitch])
   end
 
   def test_it_exists
@@ -32,14 +34,48 @@ class NetworkTest < Minitest::Test
 
     assert_equal [@knight_rider, @parks_and_rec], @nbc.shows
   end
-end
 
-#
-# pry(main)> nbc.main_characters
-# # => [#<Character:0x00007f98a4ba8dc8...>]
-#
-# pry(main)> nbc.actors_by_show
-# # => {
-#       #<Show:0x00007fe5f8398970...> => ["David Hasselhoff", "William Daniels"],
-#       #<Show:0x00007fe5f88b0a20...> => ["Amy Poehler", "Nick Offerman"]
-# #    }
+  def test_it_can_list_main_charcters
+    skip
+    @nbc.add_show(@knight_rider)
+    @nbc.add_show(@parks_and_rec)
+
+    assert_equal @kitt, @nbc.main_characters
+  end
+
+  def test_it_can_list_actors_by_show
+    @nbc.add_show(@knight_rider)
+    @nbc.add_show(@parks_and_rec)
+
+    expected = {
+      @knight_rider => ["David Hasselhoff", "William Daniels"],
+      @parks_and_rec  => ["Amy Poehler", "Nick Offerman"]
+    }
+
+    assert_equal expected, @nbc.actors_by_show
+  end
+
+  def test_it_can_list_shows_by_actors
+    @nbc.add_show(@knight_rider)
+    @nbc.add_show(@parks_and_rec)
+    @nbc.add_show(@baywatch)
+
+    expected = {
+      "David Hasselhoff" => [@knight_rider, @baywatch],
+      "William Daniels" => [@knight_rider],
+      "Amy Poehler" => [@parks_and_rec],
+      "Nick Offerman" => [@parks_and_rec]
+    }
+
+    assert_equal expected, @nbc.shows_by_actors
+  end
+
+  def test_it_can_list_prolific_actors
+    skip
+    @nbc.add_show(@knight_rider)
+    @nbc.add_show(@parks_and_rec)
+    @nbc.add_show(@baywatch)
+
+    assert_equal ["David Hasselhoff"], @nbc.prolific_actors
+  end
+end
