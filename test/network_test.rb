@@ -23,16 +23,17 @@ class NetworkTest < Minitest::Test
     assert_equal "NBC", @nbc.name
     assert_equal [], @nbc.shows
   end
+
+  def test_shows_start_empty_and_can_be_added_to
+    assert_empty @nbc.shows
+
+    @nbc.add_show(@knight_rider)
+    @nbc.add_show(@parks_and_rec)
+
+    assert_equal [@knight_rider, @parks_and_rec], @nbc.shows
+  end
 end
 
-
-
-# pry(main)> nbc.add_show(knight_rider)
-#
-# pry(main)> nbc.add_show(parks_and_rec)
-#
-# pry(main)> nbc.shows
-# # => [#<Show:0x00007fe5f8398970...>, #<Show:0x00007fe5f88b0a20...>]
 #
 # pry(main)> nbc.main_characters
 # # => [#<Character:0x00007f98a4ba8dc8...>]
