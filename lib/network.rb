@@ -37,7 +37,7 @@ class Network
   end
 
   def prolific_actors
-    shows_by_actor.find_all {|actor,show| show.size > 1}.keys
+    shows_by_actor.select {|actor,show| show.size > 1}.keys
   end
 
 end
