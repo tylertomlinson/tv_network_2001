@@ -39,5 +39,4 @@ class Network
   def prolific_actors
     shows_by_actor.select {|actor,show| show.size > 1}.keys
   end
-
 end
