@@ -11,10 +11,12 @@ class Network
   end
 
   def main_characters
-    #Can be refactored to combine the last two iterations. Time permititng
-    main_characters = @shows.reduce([]) { |characters, show|  characters << show.characters }.flatten
-    main_characters = main_characters.find_all { |character| character.salary > 500_000 }
-    main_characters = main_characters.find_all { |character| character.name == character.name.upcase }
+    main_characters = @shows.reduce([]) do |characters, show|
+      characters << show.characters
+    end.flatten
+    main_characters.find_all do |character|
+      character.salary > 500_000 && character.name[character.name.upcase]
+    end
   end
 
   def actors_by_show
@@ -24,10 +26,18 @@ class Network
     end
   end
 
-  def shows_by_actors
+  def shows_by_actor
+    @shows.reduce({}) do |actor_shows, show|
+      show.actors.each do |actor|
+        actor_shows[actor] = [] if actor_shows[actor].nil?
+        actor_shows[actor] << show
+      end
+      actor_shows
+    end
   end
 
   def prolific_actors
+    shows_by_actor.find_all {|actor,show| show.size > 1}.keys
   end
 
 end

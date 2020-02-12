@@ -36,11 +36,10 @@ class NetworkTest < Minitest::Test
   end
 
   def test_it_can_list_main_charcters
-    skip
     @nbc.add_show(@knight_rider)
     @nbc.add_show(@parks_and_rec)
 
-    assert_equal @kitt, @nbc.main_characters
+    assert_equal [@kitt], @nbc.main_characters
   end
 
   def test_it_can_list_actors_by_show
@@ -67,11 +66,10 @@ class NetworkTest < Minitest::Test
       "Nick Offerman" => [@parks_and_rec]
     }
 
-    assert_equal expected, @nbc.shows_by_actors
+    assert_equal expected, @nbc.shows_by_actor
   end
 
   def test_it_can_list_prolific_actors
-    skip
     @nbc.add_show(@knight_rider)
     @nbc.add_show(@parks_and_rec)
     @nbc.add_show(@baywatch)
